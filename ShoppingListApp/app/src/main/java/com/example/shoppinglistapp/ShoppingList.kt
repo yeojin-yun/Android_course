@@ -1,6 +1,7 @@
 package com.example.shoppinglistapp
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -87,13 +89,17 @@ fun ShoppingListApp() {
             Text("Add Shopping Item")
             //아이템 이름 입력 텍스트 필드
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 value = itemName,
                 onValueChange = {itemName=it}
             )
             //아이템 수량 입력 텍스트 필드
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 value = itemQuantity,
                 onValueChange = {itemQuantity=it}
             )
@@ -133,10 +139,13 @@ fun ShoppingListItem(
     onDeleteClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.padding(8.dp).fillMaxWidth().border(
-            border = BorderStroke(2.dp, Color.Green),
-            shape = RoundedCornerShape(20)
-        )
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .border(
+                border = BorderStroke(2.dp, Color.Green),
+                shape = RoundedCornerShape(20)
+            )
     ) {
         Text(text = item.name, modifier = Modifier.padding(8.dp))
         Text(text = item.quantity.toString(), modifier = Modifier.padding(8.dp))
@@ -149,5 +158,32 @@ fun ShoppingListItem(
             }
         }
 
+    }
+}
+
+@Composable
+fun ShoppingItemEdit(item: ShoppingItem, editCompleted: (String, Int) -> UInt) {
+    //아이템 이름
+    var itemName by remember { mutableStateOf(item.name) }
+    //아이템 수량
+    var itemQuantity by remember { mutableStateOf(item.quantity.toString()) }
+    //아이템 편집 여부
+    var isEditing by remember { mutableStateOf(item.isEditing) }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(8.dp)
+    ) {
+        Column {
+            BasicTextField(value = itemName, onValueChange = {itemName=it})
+            BasicTextField(value = itemQuantity, onValueChange = {itemQuantity = it})
+        }
+        Button(onClick = {
+            isEditing = false
+            editCompleted(itemName, itemQuantity.toIntOrNull() ?: 1)
+        }) {
+            Text("Save")
+        }
     }
 }
