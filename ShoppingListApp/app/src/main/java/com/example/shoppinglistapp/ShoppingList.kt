@@ -34,13 +34,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-data class ShoppingItem(val id: Int, val name: String, val quantity: Int, val isEditing: Boolean = false)
+data class ShoppingItem(val id: Int, var name: String, var quantity: Int, var isEditing: Boolean = false)
 
 @ExperimentalMaterial3Api
 @Composable
 fun ShoppingListApp() {
     //쇼핑 리스트를 담을 변수
-    var shoppingItem by remember { mutableStateOf(listOf<ShoppingItem>()) }
+    var shoppingItems by remember { mutableStateOf(listOf<ShoppingItem>()) }
     //얼럿 띄울지 말지 변수
     var showDialog by remember { mutableStateOf(false) }
     //쇼핑 아이템 이름
@@ -69,8 +69,23 @@ fun ShoppingListApp() {
                 .padding(16.dp),
 
             ) {
-            items(shoppingItem){
-                ShoppingListItem(it, {}, {})
+            items(shoppingItems){
+                item ->
+                if (item.isEditing) {
+                    ShoppingItemEdit(item = item) {
+                        editedName, editedQuantity ->
+                        shoppingItems = shoppingItems.map {
+                            if (it.id == item.id) it.copy(name = editedName, quantity = editedQuantity, isEditing = false)
+                            else it.copy(isEditing = false)
+                        }
+                    }
+                } else {
+                    ShoppingListItem(item = item, onEditClick = {
+                        shoppingItems = shoppingItems.map { it.copy(isEditing = it.id == item.id) }
+                    }, onDeleteClick = {
+                        shoppingItems = shoppingItems.filter { it.id != item.id }
+                    })
+                }
             }
         }
     }
@@ -116,8 +131,8 @@ fun ShoppingListApp() {
                 Button(onClick = {
                     //아이템 이름이 입력되어 있으면 shoppingItem 리스트에 해당 아이템을 추가해야 함
                     if (itemName.isNotBlank()) {
-                        val newItem = ShoppingItem(id=shoppingItem.size+1, name = itemName, quantity = itemQuantity.toInt(), isEditing = false)
-                        shoppingItem = shoppingItem + newItem
+                        val newItem = ShoppingItem(id=shoppingItems.size+1, name = itemName, quantity = itemQuantity.toInt(), isEditing = false)
+                        shoppingItems = shoppingItems + newItem
                         showDialog = false
                         itemName = ""
                         itemQuantity = ""
@@ -162,7 +177,7 @@ fun ShoppingListItem(
 }
 
 @Composable
-fun ShoppingItemEdit(item: ShoppingItem, editCompleted: (String, Int) -> UInt) {
+fun ShoppingItemEdit(item: ShoppingItem, editCompleted: (String, Int) -> Unit) {
     //아이템 이름
     var itemName by remember { mutableStateOf(item.name) }
     //아이템 수량
