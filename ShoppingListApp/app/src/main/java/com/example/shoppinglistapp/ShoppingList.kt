@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,15 +51,17 @@ fun ShoppingListApp() {
 
     //UI
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center //세로 정렬
+        modifier = Modifier.fillMaxSize().padding(top = 50.dp),
+        verticalArrangement = Arrangement.Center, //세로 정렬
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //쇼핑 아이템 추가 버튼
         Button(
             onClick = {
                 showDialog = true
             },
-            modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+            modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+
         ) {
             Text(text = "Add Item")
         }
@@ -160,7 +163,8 @@ fun ShoppingListItem(
             .border(
                 border = BorderStroke(2.dp, Color.Green),
                 shape = RoundedCornerShape(20)
-            )
+            ),
+
     ) {
         Text(text = item.name, modifier = Modifier.padding(8.dp))
         Text(text = item.quantity.toString(), modifier = Modifier.padding(8.dp))
