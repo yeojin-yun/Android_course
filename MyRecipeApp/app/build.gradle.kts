@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.myrecipeapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.myrecipeapp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -58,6 +58,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //image loading
     implementation("io.coil-kt:coil-compose:2.4.0")
+    
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

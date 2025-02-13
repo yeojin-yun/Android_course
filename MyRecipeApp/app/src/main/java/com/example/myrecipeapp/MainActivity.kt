@@ -20,10 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyRecipeAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    RecipeScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
