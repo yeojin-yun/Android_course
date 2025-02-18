@@ -19,22 +19,18 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun SecondScreen(navToFirstScreen: ()->Unit) {
-    val name = remember {
-        mutableStateOf("")
-    }
+fun SecondScreen(name: String, age: String) {
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("This is the Second Screen", fontSize = 24.sp)
-        Spacer(modifier = Modifier.height(16.dp))
-//        OutlinedTextField(value = name.value, onValueChange = {
-//            name.value = it
-//        })
-        Button(onClick = { navToFirstScreen() }) {
+
+        Text("My name is ${name}", fontSize = 24.sp)
+        Text(text = "My age is ${age}", fontSize = 24.sp)
+        Button(onClick = {  }) {
             Text(text = "Go To First Screen")
 
         }
@@ -42,9 +38,9 @@ fun SecondScreen(navToFirstScreen: ()->Unit) {
 }
 
 
-
-@Preview(showBackground = true)
-@Composable
-fun SecondScreenPreview() {
-    SecondScreen({})
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun SecondScreenPreview() {
+//    SecondScreen("")
+//}

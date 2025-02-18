@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 
 class MainViewModel:ViewModel() {
     //실제 RecipeState의 객체
@@ -38,6 +39,7 @@ class MainViewModel:ViewModel() {
     }
 
     //뷰모델에서 관리하게 될 상태
+
     data class RecipeState(
         val loading: Boolean = true,
         val list: List<Category> = emptyList(),
