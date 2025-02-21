@@ -21,7 +21,8 @@ class MainViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val response = recipeService.getCategories()
-                _categoriesState.value = _categoriesState.value.copy(isLoading = true, errorMessage = null, list = response)
+                println(response)
+                _categoriesState.value = _categoriesState.value.copy(isLoading = false, errorMessage = null, list = response)
             } catch (e: Exception) {
                 _categoriesState.value = _categoriesState.value.copy(isLoading = false, errorMessage = "fail to load data")
             }

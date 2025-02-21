@@ -8,7 +8,7 @@ data class Category(
     val name: String,
     val image: String?,
     val description: String?,
-    val subCategories: List<SubCategory>
+    val subcategories: List<SubCategory>
 ): Parcelable {}
 @Parcelize
 data class SubCategory(
