@@ -63,6 +63,10 @@ fun LocationDisplay(
 ) {
 
     val location = viewModel.location.value
+
+    val address = location?.let {
+        locationUtils.reverseGeocodeLocation(location)
+    }
     //권한 런처 요청
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
@@ -97,7 +101,7 @@ fun LocationDisplay(
         verticalArrangement = Arrangement.Center
     ) {
         if (location!=null) {
-            Text(text = "Address ${location.latitude}, ${location.logitude}")
+            Text(text = "Address ${location.latitude}, ${location.logitude}\n$address")
         } else {
             Text(text = "Location not Avaiable")
         }
