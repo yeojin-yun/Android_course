@@ -21,23 +21,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.locationapp.ui.theme.LocationAppTheme
 import android.Manifest
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val viewModel: LocationViewModel = viewModel()
             LocationAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
 
                 ) {
-                    MyApp()
+                    MyApp(viewModel)
                 }
             }
         }
@@ -45,17 +49,20 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp() {
+fun MyApp(viewModel: LocationViewModel) {
     val context = LocalContext.current
     val locationUtils = LocationUtils(context)
-    LocationDisplay(locationUtils = locationUtils, context = context)
+    LocationDisplay(locationUtils = locationUtils, context = context, viewModel)
 }
 
 @Composable
 fun LocationDisplay(
     locationUtils: LocationUtils,
-    context: Context
+    context: Context,
+    viewModel: LocationViewModel
 ) {
+
+    val location = viewModel.location.value
     //권한 런처 요청
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
@@ -64,6 +71,7 @@ fun LocationDisplay(
             &&
             permission[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
             //I Have Access to location
+            locationUtils.requestLocationUpdate(viewModel)
         } else {
             //I Have To Request Permission For Location
             //why we need the permission
@@ -88,10 +96,16 @@ fun LocationDisplay(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        if (location!=null) {
+            Text(text = "Address ${location.latitude}, ${location.logitude}")
+        } else {
+            Text(text = "Location not Avaiable")
+        }
         Text("Location not available")
         Button(onClick = {
             if(locationUtils.hasLocationPermission(context)) {
                 //permission granted
+                locationUtils.requestLocationUpdate(viewModel)
             } else {
                 //request permission
                 requestPermissionLauncher.launch(
