@@ -46,7 +46,7 @@ class LocationUtils(val context: Context) {
             return false;
         }
     }
-
+    //위도, 경도 -> 주소로 바꾸는 절차
     fun reverseGeocodeLocation(location: LocationData): String {
         val geocoder = Geocoder(context, Locale.getDefault())
         val coordinate = LatLng(location.latitude, location.logitude)

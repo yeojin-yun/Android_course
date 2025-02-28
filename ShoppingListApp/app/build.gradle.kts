@@ -50,7 +50,18 @@ android {
 }
 
 dependencies {
+//google play services에서 제공하는 전통적인 Google Maps API
+    //SupportMapFragment, MapView 등을 사용하여 XML 기반으로 지도를 구현할 때 필요
+    implementation("com.google.maps.android:maps-compose:2.15.0")
 
+    //Jetpack Compose에서 Google 지도를 사용할 수 있도록 지원하는 라이브러리
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    //Network Calls
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    //Json to Kotlin
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    //navigation
+    implementation("androidx.navigation:navigation-compose:2.7.4")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
