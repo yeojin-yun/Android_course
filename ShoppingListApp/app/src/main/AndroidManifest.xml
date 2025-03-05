@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShoppingListApp"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCB_BQdLMtQ_4Xx9k8-nF6PwodXOu3vLJg"
+            />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
