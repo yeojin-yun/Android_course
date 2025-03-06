@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,6 +18,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.LocationOn
 
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
@@ -34,12 +36,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.locationapp.LocationUtils
 
-data class ShoppingItem(val id: Int, var name: String, var quantity: Int, var isEditing: Boolean = false)
+data class ShoppingItem(
+    val id: Int,
+    var name: String,
+    var quantity: Int,
+    var isEditing: Boolean = false,
+    var address: String = ""
+    )
 
 @ExperimentalMaterial3Api
 @Composable
-fun ShoppingListApp() {
+fun ShoppingListApp(
+    locationUtils: LocationUtils,
+    viewModel: LocationViewModel,
+    navHostController: NavHostController,
+    context: Context,
+    address: String
+) {
     //쇼핑 리스트를 담을 변수
     var shoppingItems by remember { mutableStateOf(listOf<ShoppingItem>()) }
     //얼럿 띄울지 말지 변수
@@ -51,7 +67,9 @@ fun ShoppingListApp() {
 
     //UI
     Column(
-        modifier = Modifier.fillMaxSize().padding(top = 50.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 50.dp),
         verticalArrangement = Arrangement.Center, //세로 정렬
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -166,9 +184,26 @@ fun ShoppingListItem(
             ),
 
     ) {
-        Text(text = item.name, modifier = Modifier.padding(8.dp))
-        Text(text = item.quantity.toString(), modifier = Modifier.padding(8.dp))
-        Row {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(8.dp)
+        ) {
+            Row {
+                Text(text = item.name, modifier = Modifier.padding(8.dp))
+                Text(text = item.quantity.toString(), modifier = Modifier.padding(8.dp))
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
+                Text(text = item.address)
+            }
+        }
+
+        Row(
+            modifier = Modifier.padding(8.dp)
+        ) {
             IconButton(onClick = onEditClick) {
                 Icon(imageVector = Icons.Default.Edit, null)
             }
