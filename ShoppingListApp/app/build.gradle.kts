@@ -56,6 +56,7 @@ dependencies {
 
     //Jetpack Compose에서 Google 지도를 사용할 수 있도록 지원하는 라이브러리
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     //Network Calls
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     //Json to Kotlin
