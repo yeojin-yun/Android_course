@@ -62,7 +62,14 @@ dependencies {
     //Json to Kotlin
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //navigation
-    implementation("androidx.navigation:navigation-compose:2.7.4")
+    val nav_version = "2.7.4"
+
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    // (선택 사항) 다른 구성요소도 필요하면 추가
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-compose:$nav_version") // Jetp
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
