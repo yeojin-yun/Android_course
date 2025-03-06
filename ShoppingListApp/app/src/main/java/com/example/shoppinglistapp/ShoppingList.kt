@@ -1,6 +1,10 @@
 package com.example.shoppinglistapp
 
+import android.Manifest
 import android.content.Context
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
 import com.example.locationapp.LocationUtils
 
@@ -64,6 +69,33 @@ fun ShoppingListApp(
     var itemName by remember { mutableStateOf("") }
     //쇼핑 아이템 수량
     var itemQuantity by remember { mutableStateOf("") }
+    //권한 런처 요청
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permission ->
+        if(permission[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+            &&
+            permission[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
+            //I Have Access to location
+            locationUtils.requestLocationUpdate(viewModel)
+        } else {
+            //I Have To Request Permission For Location
+            //why we need the permission
+            val rationalRequired = ActivityCompat.shouldShowRequestPermissionRationale(
+                context as MainActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) || ActivityCompat.shouldShowRequestPermissionRationale(
+                context as MainActivity,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+
+            if (rationalRequired) {
+                Toast.makeText(context, "Location Permission is required for this feature to work", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(context, "Location Permission is required. Please enable to permision", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     //UI
     Column(
@@ -139,6 +171,21 @@ fun ShoppingListApp(
                 value = itemQuantity,
                 onValueChange = {itemQuantity=it}
             )
+            Button(onClick = {
+                if (locationUtils.hasLocationPermission(context)) {
+                    locationUtils.requestLocationUpdate(viewModel)
+                    navHostController.navigate("locationscreen") {
+                        this.launchSingleTop
+                    }
+                } else {
+                    requestPermissionLauncher.launch(arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ))
+                }
+            }) {
+
+            }
             //버튼 Row
             Row(
                 modifier = Modifier.fillMaxWidth(),

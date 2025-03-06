@@ -29,6 +29,8 @@ fun LocationSelectionScreen(
         position = CameraPosition.fromLatLngZoom(userLocation.value, 10f)
     }
 
+
+
     //UI
     Column(
         modifier = Modifier.fillMaxSize()
