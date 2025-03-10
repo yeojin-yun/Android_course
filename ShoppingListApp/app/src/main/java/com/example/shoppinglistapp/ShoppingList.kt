@@ -128,7 +128,7 @@ fun ShoppingListApp(
                     ShoppingItemEdit(item = item) {
                         editedName, editedQuantity ->
                         shoppingItems = shoppingItems.map {
-                            if (it.id == item.id) it.copy(name = editedName, quantity = editedQuantity, isEditing = false)
+                            if (it.id == item.id) it.copy(name = editedName, quantity = editedQuantity, isEditing = false, address = address)
                             else it.copy(isEditing = false)
                         }
                     }
@@ -184,7 +184,7 @@ fun ShoppingListApp(
                     ))
                 }
             }) {
-
+                Text("select location")
             }
             //버튼 Row
             Row(
@@ -199,7 +199,7 @@ fun ShoppingListApp(
                 Button(onClick = {
                     //아이템 이름이 입력되어 있으면 shoppingItem 리스트에 해당 아이템을 추가해야 함
                     if (itemName.isNotBlank()) {
-                        val newItem = ShoppingItem(id=shoppingItems.size+1, name = itemName, quantity = itemQuantity.toInt(), isEditing = false)
+                        val newItem = ShoppingItem(id=shoppingItems.size+1, name = itemName, quantity = itemQuantity.toInt(), isEditing = false, address = address)
                         shoppingItems = shoppingItems + newItem
                         showDialog = false
                         itemName = ""
