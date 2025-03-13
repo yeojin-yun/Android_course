@@ -9,6 +9,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
@@ -33,8 +34,12 @@ fun AppBarView(
 
     //nav back icon
     val navIcon: @Composable (() -> Unit)? = {
-        Button(onClick = onBackNavClicked) {
-            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription ="arrow_back_icon")
+        if (!title.contains("Wish")) {
+            IconButton(onClick = onBackNavClicked) {
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription ="arrow_back_icon")
+            }
+        } else {
+            null
         }
     }
 
