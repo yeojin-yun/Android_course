@@ -18,11 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
 fun WishList(
-    context: Context,
-    padding: PaddingValues
+    navHostController: NavHostController,
+    padding: PaddingValues,
+
 ) {
     LazyColumn(modifier = Modifier
         .fillMaxSize()
@@ -30,7 +32,7 @@ fun WishList(
         val dummyList = DummyList.wishList
         items(dummyList) {
             WishItem(item = it) {
-                Toast.makeText(context,"Item Click", Toast.LENGTH_LONG).show()
+                navHostController.navigate(Screen.AddScrreen.route)
             }
         }
     }

@@ -15,9 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
-fun HomeView() {
+fun HomeView(
+    navHostController: NavHostController,
+    viewModel: WishViewModel
+) {
     val context = LocalContext.current
     Scaffold(
         topBar = { AppBarView(title = "Wish List", onBackNavClicked = {
@@ -28,12 +32,14 @@ fun HomeView() {
                 modifier = Modifier.padding(16.dp),
                 backgroundColor = colorResource(id = R.color.black),
                 contentColor = colorResource(id = R.color.white),
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navHostController.navigate(Screen.AddScrreen.route)
+                },
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "add icon")
             }
         }
     ) { padding ->
-        WishList(context = context, padding = padding)
+        WishList(navHostController=navHostController, padding = padding)
     }
 }

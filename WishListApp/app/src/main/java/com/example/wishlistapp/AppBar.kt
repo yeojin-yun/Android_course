@@ -33,14 +33,14 @@ fun AppBarView(
     }
 
     //nav back icon
-    val navIcon: @Composable (() -> Unit)? = {
-        if (!title.contains("Wish")) {
+    val navIcon: (@Composable () -> Unit)? = if (!title.contains("List")) {
+        {
             IconButton(onClick = onBackNavClicked) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription ="arrow_back_icon")
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "arrow_back_icon")
             }
-        } else {
-            null
         }
+    } else {
+        null
     }
 
     TopAppBar(

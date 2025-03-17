@@ -35,8 +35,10 @@ fun AddEditDetailView(
 ) {
     Scaffold(
         topBar = { AppBarView(
-            title = if(id!=0L) stringResource(id = R.string.edit_item) else stringResource(id = R.string.update_item)
-        )}
+            title = if(id!=0L) stringResource(id = R.string.edit_item) else stringResource(id = R.string.update_item),
+        ) {
+            navHostController.navigateUp()
+        }}
     ) {
         Column(
             modifier = Modifier.padding(it),
@@ -50,7 +52,15 @@ fun AddEditDetailView(
             WishTextField(label = "Description", content = viewModel.wishDescriptionState) { newDescription ->
                 viewModel.wishDescriptionChanged(newDescription)
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(
+                onClick = {
+                    if (viewModel.wishTitleState.isNotEmpty() && viewModel.wishDescriptionState.isNotEmpty()) {
+                        //Update Wish Item
+                    } else {
+                        //Add Wish Item
+                    }
+                }
+            ) {
                 Text(
                     text = if(id == 0L) stringResource(id = R.string.add) else stringResource(id = R.string.edit),
                     fontSize = 18.sp,
