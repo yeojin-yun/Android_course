@@ -32,7 +32,7 @@ fun WishList(
         val dummyList = DummyList.wishList
         items(dummyList) {
             WishItem(item = it) {
-                navHostController.navigate(Screen.AddScrreen.route)
+                navHostController.navigate(Screen.AddScreen.route)
             }
         }
     }

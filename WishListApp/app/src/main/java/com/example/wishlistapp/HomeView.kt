@@ -11,11 +11,13 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.wishlistapp.data.DummyList
 
 @Composable
 fun HomeView(
@@ -33,13 +35,23 @@ fun HomeView(
                 backgroundColor = colorResource(id = R.color.black),
                 contentColor = colorResource(id = R.color.white),
                 onClick = {
-                    navHostController.navigate(Screen.AddScrreen.route)
+                    navHostController.navigate(Screen.AddScreen.route + "/0L")
                 },
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "add icon")
             }
         }
     ) { padding ->
-        WishList(navHostController=navHostController, padding = padding)
+        val wishList = viewModel.getAllWishes.collectAsState(initial = listOf())
+        LazyColumn(modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)) {
+
+            items(wishList.value) {
+                WishItem(item = it) {
+                    navHostController.navigate(Screen.AddScreen.route+ "/${it.id}")
+                }
+            }
+        }
     }
 }

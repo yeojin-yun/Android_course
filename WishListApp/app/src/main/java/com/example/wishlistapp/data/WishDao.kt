@@ -1,6 +1,7 @@
 package com.example.wishlistapp.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -24,6 +25,7 @@ abstract class WishDao {
     abstract suspend fun updateAWish(wishEntity: Wish)
 
     //item delete
+    @Delete
     abstract suspend fun deleteAWish(wishEntity: Wish)
 
     //load one item by id

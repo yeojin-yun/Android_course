@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WishViewModel(
-    private val wishRepository: WishRepository
+    private val wishRepository: WishRepository = Graph.repository
 ): ViewModel() {
     var wishTitleState by mutableStateOf("")
     var wishDescriptionState by mutableStateOf("")
@@ -31,7 +31,7 @@ class WishViewModel(
 
     init {
         viewModelScope.launch {
-            wishRepository.getWishes()
+           getAllWishes= wishRepository.getWishes()
         }
     }
 
