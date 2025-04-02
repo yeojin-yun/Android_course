@@ -5,11 +5,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -19,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.wishlistapp.data.DummyList
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeView(
     navHostController: NavHostController,
@@ -47,10 +54,27 @@ fun HomeView(
             .fillMaxSize()
             .padding(padding)) {
 
-            items(wishList.value) {
-                WishItem(item = it) {
-                    navHostController.navigate(Screen.AddScreen.route+ "/${it.id}")
-                }
+            items(wishList.value, key = {wish -> wish.id}) { wish ->
+                val dismissState = rememberDismissState(confirmStateChange = {
+                    if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart) {
+                        viewModel.deleteWish(wish)
+                    }
+                    true
+                })
+
+                SwipeToDismiss(
+                    state = dismissState,
+                    background = {},
+                    directions = setOf(DismissDirection.EndToStart, DismissDirection.EndToStart),
+                    dismissThresholds = {FractionalThreshold(fraction = 0.25f)},
+                    dismissContent = {
+                        WishItem(item = wish) {
+                            navHostController.navigate(Screen.AddScreen.route+ "/${wish.id}")
+                        }
+                    }
+                )
+
+
             }
         }
     }
