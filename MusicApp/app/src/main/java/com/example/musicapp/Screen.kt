@@ -3,6 +3,34 @@ package com.example.musicapp
 import androidx.annotation.DrawableRes
 
 sealed class Screen(val title: String, val route: String) {
+    sealed class BottomScreen(
+        val bTitle: String,
+        val bRoute: String,
+        @DrawableRes val icon: Int
+    ): Screen(title = bTitle, route = bRoute) {
+        object Home: BottomScreen(
+            bTitle = "Home",
+            bRoute = "homescreen",
+            icon = R.drawable.baseline_music_note_24,
+        )
+        object Library: BottomScreen(
+            bTitle = "Library",
+            bRoute = "libraryscreen",
+            icon = R.drawable.baseline_video_library_24,
+        )
+        object Browse: BottomScreen(
+            bTitle = "Browse",
+            bRoute = "browsescreen",
+            icon = R.drawable.baseline_apps_24,
+        )
+    }
+
+    val screensInBottom = listOf(
+        Screen.BottomScreen.Home,
+        Screen.BottomScreen.Library,
+        Screen.BottomScreen.Browse,
+    )
+
     sealed class DrawerScreen(val dTitle: String, val dRoute: String, @DrawableRes val icon: Int) : Screen(title = dTitle, route = dRoute) {
         object Account: DrawerScreen(
             dTitle = "Account",

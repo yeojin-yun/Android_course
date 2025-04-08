@@ -5,8 +5,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
@@ -32,6 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.musicapp.Screen.BottomScreen.Browse.screensInBottom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -61,6 +65,26 @@ fun MainView() {
 
     val dialogOpen = remember {
         mutableStateOf(false)
+    }
+
+    val bottomBar: @Composable () -> Unit = {
+        if(currentScreen is Screen.DrawerScreen || currentScreen == Screen.BottomScreen.Home) {
+            BottomNavigation(
+                Modifier.wrapContentSize()
+            ) {
+                screensInBottom.forEach { item -> 
+                    BottomNavigationItem(
+                        selected = currentRoute == item.bRoute,
+                        onClick = { controller.navigate(item.bRoute)},
+                        icon = { Icon(painter = painterResource(id = item.icon), contentDescription =  item.bTitle) },
+                        label = { Text(text = item.bTitle) },
+                        selectedContentColor = Color.White,
+                        unselectedContentColor = Color.Black
+                    )
+
+                }
+            }
+        }
     }
 
     Scaffold(
@@ -97,6 +121,9 @@ fun MainView() {
                     })
                 }
             }
+        },
+        bottomBar = {
+
         },
         scaffoldState = scaffoldState
     ) {
