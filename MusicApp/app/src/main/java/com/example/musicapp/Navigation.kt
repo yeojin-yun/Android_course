@@ -14,8 +14,12 @@ fun Navigation(
     viewModel: MainViewModel,
     paddingValue: PaddingValues
 ) {
-    NavHost(navController = navController, startDestination = Screen.DrawerScreen.AddAccount.route, modifier = Modifier.padding(paddingValue)) {
-        composable(Screen.DrawerScreen.AddAccount.route) {}
-        composable(Screen.DrawerScreen.Subscription.route) {}
+    NavHost(navController = navController, startDestination = Screen.DrawerScreen.Account.route, modifier = Modifier.padding(paddingValue)) {
+        composable(Screen.DrawerScreen.Account.route) {
+            AccountView()
+        }
+        composable(Screen.DrawerScreen.Subscription.route) {
+            SubscriptionView()
+        }
     }
 }

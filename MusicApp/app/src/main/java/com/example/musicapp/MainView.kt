@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,12 +59,14 @@ fun MainView() {
         mutableStateOf(currentScreen.title)
     }
 
-
+    val dialogOpen = remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "HOME")/*TODO*/ },
+                title = { Text(text = title.value)/*TODO*/ },
                 navigationIcon = {
                     IconButton(
                         onClick = {
@@ -86,7 +89,7 @@ fun MainView() {
                             scaffoldState.drawerState.close()
                         }
                         if (screen.dRoute == "add_account") {
-                            //open dialog
+                            dialogOpen.value = true
                         } else {
                             controller.navigate(screen.dRoute)
                             title.value = screen.dTitle
@@ -98,6 +101,7 @@ fun MainView() {
         scaffoldState = scaffoldState
     ) {
         Navigation(navController = controller, viewModel= viewModel,paddingValue = it)
+        AccountDialog(dialogOpen = dialogOpen)
     }
 }
 
