@@ -6,13 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 
 @Composable
 fun Navigation(
     navController: NavHostController,
+    viewModel: MainViewModel,
     paddingValue: PaddingValues
 ) {
-    NavHost(navController = navController, startDestination = Screen.DrawerScreen.Accout.route, modifier = Modifier.padding(paddingValue)) {
-
+    NavHost(navController = navController, startDestination = Screen.DrawerScreen.AddAccount.route, modifier = Modifier.padding(paddingValue)) {
+        composable(Screen.DrawerScreen.AddAccount.route) {}
+        composable(Screen.DrawerScreen.Subscription.route) {}
     }
 }

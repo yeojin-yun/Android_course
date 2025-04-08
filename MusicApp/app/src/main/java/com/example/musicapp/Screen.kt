@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 
 sealed class Screen(val title: String, val route: String) {
     sealed class DrawerScreen(val dTitle: String, val dRoute: String, @DrawableRes val icon: Int) : Screen(title = dTitle, route = dRoute) {
-        object Accout: DrawerScreen(
+        object Account: DrawerScreen(
             dTitle = "Account",
             dRoute = "account",
             icon = R.drawable.baseline_account_circle_24
@@ -24,7 +24,7 @@ sealed class Screen(val title: String, val route: String) {
 
 //Drawer의 아이템으로 쓰기 위해 배열로 선언
 val screensInDrawer = listOf(
-    Screen.DrawerScreen.Accout,
+    Screen.DrawerScreen.Account,
     Screen.DrawerScreen.Subscription,
     Screen.DrawerScreen.AddAccount
 )
