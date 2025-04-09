@@ -35,7 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.musicapp.Screen.BottomScreen.Browse.screensInBottom
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -88,6 +88,7 @@ fun MainView() {
     }
 
     Scaffold(
+        bottomBar = bottomBar,
         topBar = {
             TopAppBar(
                 title = { Text(text = title.value)/*TODO*/ },
@@ -122,9 +123,7 @@ fun MainView() {
                 }
             }
         },
-        bottomBar = {
 
-        },
         scaffoldState = scaffoldState
     ) {
         Navigation(navController = controller, viewModel= viewModel,paddingValue = it)
