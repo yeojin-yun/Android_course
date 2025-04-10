@@ -2,9 +2,18 @@ package com.example.musicapp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -67,16 +76,22 @@ fun MainView() {
         mutableStateOf(false)
     }
 
+
+
     val bottomBar: @Composable () -> Unit = {
         if(currentScreen is Screen.DrawerScreen || currentScreen == Screen.BottomScreen.Home) {
             BottomNavigation(
-                Modifier.wrapContentSize()
+                Modifier
+                    .wrapContentSize()
+                    .navigationBarsPadding()
             ) {
-                screensInBottom.forEach { item -> 
+                screensInBottom.forEach { item ->
+                    val isSelected:Boolean = currentRoute == item.bRoute;
+                    val tint = if (isSelected) Color.White else Color.Black
                     BottomNavigationItem(
-                        selected = currentRoute == item.bRoute,
+                        selected = isSelected,
                         onClick = { controller.navigate(item.bRoute)},
-                        icon = { Icon(painter = painterResource(id = item.icon), contentDescription =  item.bTitle) },
+                        icon = { Icon(painter = painterResource(id = item.icon), contentDescription =  item.bTitle, tint = tint) },
                         label = { Text(text = item.bTitle) },
                         selectedContentColor = Color.White,
                         unselectedContentColor = Color.Black
@@ -101,12 +116,14 @@ fun MainView() {
                         }) {
                         Icon(imageVector = Icons.Default.Menu, contentDescription = "nav icon")
                     }
-                }
-
+                },
+                modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues())
             )
         },
         drawerContent = {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues())
+            ) {
                 items(screensInDrawer) { screen ->
                     DrawerItem(selected = currentRoute == screen.dRoute, item = screen, onDrawerItemClicked = {
                         scope.launch {
@@ -149,5 +166,27 @@ fun DrawerItem(
     ) {
         Icon(painter = painterResource(id = item.icon), contentDescription = item.dTitle)
         Text(text = item.dTitle, style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+@Composable
+fun ModalBottomSheetLayout(modifier: Modifier) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .height(300.dp)
+            .background(MaterialTheme.colorScheme.surface)
+    ) {
+        Column(
+            modifier = modifier.padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Row(
+                modifier = modifier.padding(16.dp)
+            ) {
+                Icon(painter = painterResource(id = R.drawable.baseline_heart_broken_24), contentDescription = "heart icon")
+                Text(text = "Settings")
+            }
+        }
     }
 }

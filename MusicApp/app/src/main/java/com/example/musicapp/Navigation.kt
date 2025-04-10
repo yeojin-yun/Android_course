@@ -14,7 +14,7 @@ fun Navigation(
     viewModel: MainViewModel,
     paddingValue: PaddingValues
 ) {
-    NavHost(navController = navController, startDestination = Screen.DrawerScreen.Account.route, modifier = Modifier.padding(paddingValue)) {
+    NavHost(navController = navController, startDestination = Screen.BottomScreen.Home.route, modifier = Modifier.padding(paddingValue)) {
 
         composable(Screen.BottomScreen.Home.bRoute) {
             HomeView()

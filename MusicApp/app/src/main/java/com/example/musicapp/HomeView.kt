@@ -32,7 +32,7 @@ fun HomeView() {
                 Text(text = it.value[0], modifier = Modifier.padding(16.dp))
                 LazyRow {
                     items(categories) { category ->
-                        BrowserItem(category, R.drawable.baseline_music_note_24)
+                        HomeViewItem(category, R.drawable.baseline_music_note_24)
                     }
                 }
             }
@@ -41,17 +41,17 @@ fun HomeView() {
 }
 
 @Composable
-fun BrowserItem(category: String, drawable: Int) {
+fun HomeViewItem(category: String, drawable: Int) {
     Card(
         modifier = Modifier
-            .fillMaxSize()
             .padding(16.dp)
-            .size(100.dp),
+            .size(150.dp),
         border = BorderStroke(3.dp, color = Color.Black)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
         ) {
             Text(text = category)
             Image(painter = painterResource(id = drawable), contentDescription = category)
